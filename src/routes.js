@@ -97,4 +97,44 @@ export const routes = [
       return res.writeHead(204).end()
     },
   },
+  {
+    method: 'PATCH',
+    path: buildRoutePath('/tasks/:id/complete'),
+    handler: (req, res) => {
+      const { id } = req.params
+
+      if (!id) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'ID não informado' }))
+        return res.end()
+      }
+
+      const [task] = database.select('tasks', { id })
+
+      if (!task) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'Task não encontrada' }))
+        return res.end()
+      }
+
+      const newTask = {}
+
+      if (task.completed_at === null) {
+        newTask.completed_at = new Date()
+      } else {
+        newTask.completed_at = null
+      }
+
+      const response = database.update('tasks', id, newTask)
+
+      if (response?.status === 'error') {
+        res.writeHead(404).write(JSON.stringify({ message: response.message }))
+        return res.end()
+      }
+
+      return res.writeHead(204).end()
+    },
+  },
 ]
