@@ -43,11 +43,12 @@ export const routes = [
 
       const searchObject = search
         ? {
-            name: search,
-            email: search,
+            title: search,
+            description: search,
           }
         : null
 
+      console.log('searchObject', searchObject)
       const tasks = database.select('tasks', searchObject)
 
       return res.end(JSON.stringify(tasks))
