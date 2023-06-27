@@ -61,11 +61,17 @@ export const routes = [
 
       const { title, description } = req.body
 
-      const response = database.update('tasks', id, {
-        title,
-        description,
-        updated_at: new Date(),
-      })
+      const newTask = { updated_at: new Date() }
+
+      if (title) {
+        newTask.title = title
+      }
+
+      if (description) {
+        newTask.description = description
+      }
+
+      const response = database.update('tasks', id, newTask)
 
       if (response?.status === 'error') {
         res.writeHead(404).write(JSON.stringify({ message: response.message }))
