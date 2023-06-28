@@ -21,6 +21,20 @@ export const routes = [
     handler: (req, res) => {
       const { title, description } = req.body
 
+      if (!title) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'Title não informado' }))
+        return res.end()
+      }
+
+      if (!description) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'Description não informado' }))
+        return res.end()
+      }
+
       const task = {
         id: randomUUID(),
         title,
@@ -60,6 +74,20 @@ export const routes = [
       const { id } = req.params
 
       const { title, description } = req.body
+
+      if (!title) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'Title não informado' }))
+        return res.end()
+      }
+
+      if (!description) {
+        res
+          .writeHead(400)
+          .write(JSON.stringify({ message: 'Description não informado' }))
+        return res.end()
+      }
 
       const newTask = { updated_at: new Date() }
 
